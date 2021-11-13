@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class WebAppController {
 
-    @RequestMapping(value = "/greeting",method = RequestMethod.GET)
+    @RequestMapping(value = "/greeting", method = RequestMethod.GET)
     public String getIndexPage() {
         return "greeting";
     }
 
-    @RequestMapping("/index" )
+    @RequestMapping("/index")
     public String homeScreen() {
         return "index";
     }

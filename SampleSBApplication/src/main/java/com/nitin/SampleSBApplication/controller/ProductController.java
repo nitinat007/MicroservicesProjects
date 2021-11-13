@@ -3,13 +3,20 @@ package com.nitin.SampleSBApplication.controller;
 import com.nitin.SampleSBApplication.exception.ProductNotFoundException;
 import com.nitin.SampleSBApplication.model.Product;
 import com.nitin.SampleSBApplication.service.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
 @RestController
 public class ProductController {
+
+    Logger log = LoggerFactory.getLogger(ProductController.class);
 
     @Autowired
     ProductService productService;
@@ -30,8 +37,10 @@ public class ProductController {
 
     //@PostMapping
     @RequestMapping(value = "/products", method = RequestMethod.POST)
-    public ResponseEntity<Object> addAProduct(@RequestBody Product product) {
+    public ResponseEntity<Object> addAProduct(@Valid @RequestBody Product product, HttpServletRequest request) {
         productService.addProduct(product);
+        log.info(product.toString());
+        //return ResponseEntity.created(URI.create("/products/"+product.getId())).build();
         return new ResponseEntity<>("Product " + product.getName() + " added", HttpStatus.CREATED);
     }
 
