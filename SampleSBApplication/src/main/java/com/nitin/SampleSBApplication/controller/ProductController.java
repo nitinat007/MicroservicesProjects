@@ -6,6 +6,10 @@ import com.nitin.SampleSBApplication.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,12 +31,26 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Object> getAProduct(@PathVariable int id) {
+    public ResponseEntity<EntityModel<Object>> getAProduct(@PathVariable int id) {
         if (!productService.containsProduct(id)) {
             throw new ProductNotFoundException("Not found bro");
         }
-        return new ResponseEntity<>(
-                productService.getProduct(id), HttpStatus.OK);
+        EntityModel entityModel = EntityModel.of(productService.getProduct(id));
+
+        //finding link to /products without hardcoding
+        WebMvcLinkBuilder linkToUsers = linkTo(methodOn(this.getClass()).getProducts());
+        entityModel.add(linkToUsers.withRel("all-products"));
+
+        return new ResponseEntity(
+                entityModel
+                , HttpStatus.OK);
+        /* This will be added in the response
+         "_links": {
+            "all-products": {
+                "href": "http://localhost:8081/products"
+            }
+         }
+         */
     }
 
     //@PostMapping

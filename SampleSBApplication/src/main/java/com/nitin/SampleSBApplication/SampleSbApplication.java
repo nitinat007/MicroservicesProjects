@@ -12,10 +12,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class SampleSbApplication implements CommandLineRunner {
 
+    private static Logger logger = LoggerFactory.getLogger(SampleSbApplication.class);
     @Value("${person.name:defaultString}")
     private String name;
-
-    private static Logger logger = LoggerFactory.getLogger(SampleSbApplication.class);
 
     public static void main(String[] args) {
         logger.info("This is info log");
