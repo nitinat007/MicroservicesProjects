@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Collection;
 
 @RestController
 public class ProductController {
@@ -26,12 +27,12 @@ public class ProductController {
     ProductService productService;
 
     @GetMapping(value = "/products")
-    public ResponseEntity<Object> getProducts() {
+    public ResponseEntity<Collection<Product>> getProducts() {
         return new ResponseEntity<>(productService.getProducts(), HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
-    public ResponseEntity<EntityModel<Object>> getAProduct(@PathVariable int id) {
+    public ResponseEntity<EntityModel<Product>> getAProduct(@PathVariable int id) {
         if (!productService.containsProduct(id)) {
             throw new ProductNotFoundException("Not found bro");
         }
