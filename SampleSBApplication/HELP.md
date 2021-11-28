@@ -28,6 +28,12 @@ To create docker image
 * run from project home dir: `mvn package docker:build` or `mvn spring-boot:build-image`
 * To Push: associate tag, login to account and then push
 
+Instead you can use jib plugin. It can be used to quickly build docker images for SB projects without the 
+need to have docker file and docker daemon. Command: 
+`./mvnw compile jib:dockerBuild`
+
+
+--------------
 Docker image of this application pushed to docker hub on 22 nov 2021
 Command to pull image: docker pull dockeridfortesting1/spring-boot-app-images:samplesbapplication
 To Run: docker run -p 9090:9090/tcp dockeridfortesting1/spring-boot-app-images:samplesbapplication 
@@ -36,11 +42,6 @@ To Run: docker run -p 9090:9090/tcp dockeridfortesting1/spring-boot-app-images:s
 access actuator: http://localhost:9090/manage
 
 ---------------
-
----------------
-
-
------
 
 ### Reference Documentation
 
