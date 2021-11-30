@@ -110,6 +110,18 @@
                     </resources>
                 </configuration>
             </plugin>
+
+            <!-- Alternatively jib can be used to create a docker image -->
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.1.4</version>
+                <configuration>
+                    <to>
+                        <image>dockeridfortesting1/sb-app-imageusing-jib</image>
+                    </to>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

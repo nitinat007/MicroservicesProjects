@@ -6,17 +6,20 @@ import com.nitin.SampleSBApplication.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
 import org.springframework.hateoas.EntityModel;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
-
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Collection;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 public class ProductController {
@@ -25,6 +28,16 @@ public class ProductController {
 
     @Autowired
     ProductService productService;
+
+    @Autowired
+    ApplicationArguments applicationArguments;
+
+    @PostConstruct
+    public void init() {
+        // This way we can fetch application arguments. Check methods available under applicationArguments
+        log.info("** application options available: {}", applicationArguments.getOptionNames());
+        log.info("** application source args available: {}", applicationArguments.getSourceArgs());
+    }
 
     @GetMapping(value = "/products")
     public ResponseEntity<Collection<Product>> getProducts() {
