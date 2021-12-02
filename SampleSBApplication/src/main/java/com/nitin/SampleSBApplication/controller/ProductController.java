@@ -17,6 +17,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.Properties;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -32,11 +33,15 @@ public class ProductController {
     @Autowired
     ApplicationArguments applicationArguments;
 
+    @Autowired
+    Properties customPropBean;
+
     @PostConstruct
     public void init() {
         // This way we can fetch application arguments. Check methods available under applicationArguments
         log.info("** application options available: {}", applicationArguments.getOptionNames());
         log.info("** application source args available: {}", applicationArguments.getSourceArgs());
+        log.info("** Globally set Property custom.prop.name={}",customPropBean.getProperty("custom.prop.name"));
     }
 
     @GetMapping(value = "/products")
