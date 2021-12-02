@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.annotation.PostConstruct;
@@ -22,6 +23,8 @@ public class SampleSbApplication implements CommandLineRunner {
     private String name;
     @Value("${custom.prop.name:notFoundCustomPropName}")
     private String customName;
+
+   // private Properties customProp;
 
     public static void main(String[] args) {
         logger.info("This is info log");
@@ -40,6 +43,7 @@ public class SampleSbApplication implements CommandLineRunner {
         System.out.println("Name: " + name);
     }
 
+    //exposing the property locally
     @PostConstruct
     public void loadPropertiesPostInit(){
         Properties properties = new Properties();
