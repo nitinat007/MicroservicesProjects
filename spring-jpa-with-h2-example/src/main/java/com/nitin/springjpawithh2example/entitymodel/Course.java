@@ -3,6 +3,8 @@ package com.nitin.springjpawithh2example.entitymodel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import org.hibernate.annotations.ColumnTransformer;
 
 import javax.persistence.*;
 
@@ -14,10 +16,25 @@ import javax.persistence.*;
 public class Course {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(
+            name = "course_sequence",
+            sequenceName = "course_sequence",
+            allocationSize = 2 //id increment by 2 with initialValue=1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.AUTO,
+            generator = "course_sequence"
+    )
+    @Column(
+            name="course_id",
+            updatable = false
+    )
     private int course_id;
 
-    @Column(name="course_name")
+    @Column(
+            name="course_name",
+            columnDefinition="TEXT"
+    )
     private String courseName;
 
     @Column(name = "description")
@@ -27,5 +44,13 @@ public class Course {
 
     @Column(name="is_active")
     private boolean isActive;
+
+    @Column(name = "course_password", columnDefinition = "bytea")
+    @NonNull
+    //@ColumnTransformer(read = "pgp_sym_decrypt(course_password, 'mySecretKey')", write =  "pgp_sym_encrypt(?, 'mySecretKey')")
+    @ColumnTransformer(
+            read =  "pgp_sym_decrypt(course_password, current_setting('encrypt.key'))",
+            write = "pgp_sym_encrypt(  ?, current_setting('encrypt.key')) ")
+    private String coursePassword;
 
 }

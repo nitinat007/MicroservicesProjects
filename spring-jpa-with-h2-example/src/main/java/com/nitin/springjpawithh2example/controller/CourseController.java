@@ -16,6 +16,7 @@ import java.util.List;
 @Slf4j
 public class CourseController {
 
+    private static final String EXCEPTION = "Exception";
     @Autowired
     CourseRepository courseRepository;
 
@@ -32,7 +33,7 @@ public class CourseController {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
         } catch (Exception e) {
-            log.error("Exception: " + e.getMessage());
+            log.error(EXCEPTION + ": " + e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(courseList, HttpStatus.OK);
@@ -44,7 +45,7 @@ public class CourseController {
         try {
             courseRepository.findByIsActive(true).forEach(courseList::add);
         } catch (Exception e) {
-            log.error("Exception: " + e.getMessage());
+            log.error(EXCEPTION + ": " + e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(courseList,HttpStatus.OK);
@@ -54,10 +55,10 @@ public class CourseController {
     @RequestMapping(method = RequestMethod.POST, value = "/courses")
     public ResponseEntity<Course> createCourse(@RequestBody(required = true) Course course) {
         try {
-            Course course1 = courseRepository.save(new Course(course.getCourse_id(), course.getCourseName(), course.getDesc(), course.getCourse_fee(), course.isActive()));
+            Course course1 = courseRepository.save(new Course(course.getCourse_id(), course.getCourseName(), course.getDesc(), course.getCourse_fee(), course.isActive(), course.getCoursePassword()));
             return new ResponseEntity<>(course1, HttpStatus.CREATED);
         } catch (Exception e) {
-            log.error("Exception: " + e.getMessage());
+            log.error(EXCEPTION + ": " + e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
