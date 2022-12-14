@@ -1,0 +1,7 @@
+server:
+  port: 9090
+rmq-connection-config:
+  authenticationUrl: https://console-stg.cloud.vmware.com/csp/gateway/am/api/auth/authorize
+  rmqHost: localhost
+  rmqPort: 5672
+
