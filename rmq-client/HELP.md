@@ -18,3 +18,4 @@
 * created docker image by: ```./mvnw compile jib:dockerBuild```
 * Run by: ``docker run -d -p8081:9090 dockeridfortesting1/mdss-rmqaas-client:v1``
 * Swagger UI: http://<localhost/IP>:8081/swagger-ui.html 
+
