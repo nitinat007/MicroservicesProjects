@@ -4,10 +4,9 @@ import com.vmw.rmqclient.model.RMQConnectionModel;
 import com.vmw.rmqclient.utils.RMQOperations;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Author: kunitin
@@ -25,13 +24,13 @@ public class RMQConnectionController {
 
 
     @PostMapping(value = "/rmq-initialize")
-    public void connectRmq(@RequestBody RMQConnectionModel rmqConnProp) throws Exception {
+    public ResponseEntity<String> connectRmq(@RequestBody RMQConnectionModel rmqConnProp) throws Exception {
         log.info(" Initializing RMQ connection");
-        rmqOperations.initializeRMQ(rmqConnProp);
+        return new ResponseEntity(rmqOperations.initializeRMQ(rmqConnProp), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/rmq-close-connection")
-    public void disconnectRmq(@RequestBody RMQConnectionModel rmqConnProp) {
+    @DeleteMapping(value = "/rmq-close-current-connection")
+    public void disconnectRmq() {
         rmqOperations.closeRMQConnection();
 
     }

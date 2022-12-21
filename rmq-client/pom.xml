@@ -70,6 +70,16 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.1.4</version>
+                <configuration>
+                    <to>
+                        <image>dockeridfortesting1/mdss-rmqaas-client:v1</image>
+                    </to>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

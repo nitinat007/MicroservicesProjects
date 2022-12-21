@@ -4,4 +4,15 @@ rmq-connection-config:
   authenticationUrl: https://console-stg.cloud.vmware.com/csp/gateway/am/api/auth/authorize
   rmqHost: localhost
   rmqPort: 5672
+spring:
+  rabbitmq:
+    ssl:
+      enabled: false
+
+local:
+  rabbitmq:
+    host: 10.176.7.29
+    username: admin
+    password: admin
+
 
