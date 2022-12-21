@@ -44,10 +44,9 @@ public class RMQOperationsController {
 
     }
 
-    @PostMapping(value = "/read")
-    public ResponseEntity<?> subscribe(@RequestBody RMQClientProperties clientInfo) throws JsonProcessingException {
-        return new ResponseEntity<QueueMessage>(rmqOperations.readFromQueue(clientInfo.getQueueName()), HttpStatus.OK);
-
+    @GetMapping(value = "/read/{queueName}")
+    public ResponseEntity<?> subscribe(@PathVariable String queueName) throws JsonProcessingException {
+        return new ResponseEntity<QueueMessage>(rmqOperations.readFromQueue(queueName), HttpStatus.OK);
     }
 
     /**

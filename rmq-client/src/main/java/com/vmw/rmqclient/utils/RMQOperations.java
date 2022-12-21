@@ -37,19 +37,31 @@ public class RMQOperations {
     RmqOperatorClientConfigProperties rmqOperatorClientConfigProperties;
 
     //connect to RMQ
-    public void initializeRMQ(RMQConnectionModel rmqConnProp) {
+    public String initializeRMQ(RMQConnectionModel rmqConnProp) {
+        StringBuffer stringBuffer = new StringBuffer(" RMQ initialized || ");
         rmqOperatorClientConfigProperties.setRmqHost(rmqConnProp.getRmqClusterUrl());
-        if (rmqConnProp.getRmqClusterPort() != null)
+        stringBuffer.append("Host: " + rmqConnProp.getRmqClusterUrl() + ", ");
+        if (rmqConnProp.getRmqClusterPort() != null) {
             rmqOperatorClientConfigProperties.setRmqPort(rmqConnProp.getRmqClusterPort());
-        rmqOperatorClientConfigProperties.setOrgId(rmqConnProp.getOrgId());
+            stringBuffer.append("port: " + rmqConnProp.getRmqClusterPort() + ", ");
+        }
+
         log.info("rmqConnProp.getOAuth2AppProp() {}", rmqConnProp.getOAuth2AppProp());
-        if (rmqConnProp.getOAuth2AppProp() != null) {
+        if (rmqConnProp.getOAuth2AppProp() != null && !rmqConnProp.getOAuth2AppProp().getClientID().equalsIgnoreCase("string") && !rmqConnProp.getOrgId().equalsIgnoreCase("string")) {
             rmqOperatorClientConfigProperties.setClientId(rmqConnProp.getOAuth2AppProp().getClientID());
             rmqOperatorClientConfigProperties.setClientSecret(rmqConnProp.getOAuth2AppProp().getClientSecret());
-            rmqOperatorClientConfigProperties.setGrantType(rmqConnProp.getOAuth2AppProp().getGrantType());
+            rmqOperatorClientConfigProperties.setGrantType(rmqConnProp.getOAuth2AppProp().getGrantType().toString());
+            rmqOperatorClientConfigProperties.setOrgId(rmqConnProp.getOrgId());
+            stringBuffer.append("OAuth App: " + rmqConnProp.getOAuth2AppProp()).append("OrgId: " + rmqConnProp.getOrgId());
+        } else {
+            rmqOperatorClientConfigProperties.setClientId(null);
+            rmqOperatorClientConfigProperties.setClientSecret(null);
         }
         rabbitTemplate = rabbitTemplateObjectProvider.getObject();
         log.info("Created RabbitTemplate UUID {}", rabbitTemplate.getUUID());
+
+        return stringBuffer.toString();
+
     }
 
     public void closeRMQConnection() {

@@ -21,7 +21,5 @@ public class OAuthAppProperties {
     @NotEmpty(message = "OAuth2 clientSecret can not be empty")
     String clientSecret;
 
-    @NotNull(message = "grantType can not be null")
-    @NotEmpty(message = "grantType can not be empty")
-    String grantType;
+    OauthClientType grantType;
 }
